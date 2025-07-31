@@ -1,0 +1,27 @@
+FROM ruby:3.2.3
+
+# Instalar dependências do sistema
+RUN apt-get update -qq && apt-get install -y \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar bundler
+RUN gem install bundler:2.4.10
+
+# Definir diretório de trabalho
+WORKDIR /app
+
+# Copiar Gemfile primeiro para cache de layers
+COPY Gemfile* ./
+
+# Instalar gems
+RUN bundle install
+
+# Copiar resto da aplicação
+COPY . .
+
+# Expor porta
+EXPOSE 3000
+
+# Comando padrão
+CMD ["ruby", "rails_minimal.rb"]
