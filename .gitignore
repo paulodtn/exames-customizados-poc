@@ -1,0 +1,2 @@
+# Arquivo de template para variáveis de ambiente
+.env.example\n# Variáveis de ambiente locais\n.env
